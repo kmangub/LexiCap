@@ -81,12 +81,12 @@ Use database storage to store search results for as long as a User’s profile e
 ## **Domain Model**
 
 
-![Image](/home/mikegreene/codefellows/301/LexiCap/images/teamMAKH-Domain-Model.png)
+![Image](images/teamMAKH-Domain-Model.png)
 
 
 
 ## **Entity Relationship Diagram**
 
 
-![Image](/home/mikegreene/codefellows/301/LexiCap/images/ERDLexicApp.png)
+![Image](images/ERDLexicApp.png)
 
