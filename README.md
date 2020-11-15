@@ -2,6 +2,18 @@
 
 ### *An app allowing for English language definition and review. Users may search definitions for words, while being provided proper pronunciations, use in a sentence, the word used in a quote by a famous individual, and a picture of the activity or item, if available.*
 
++ **MVP -** At the very least, we want to save searched words into a database and have corresponding flash cards to quiz the user on demand. 
+Then incorporate a translation API to teach that word in other languages. 
+  + We will also utilize a quote generator API to bring in quotes that contain the searched word. 
+  + We will also use an Owlbot API to generate photos for the searched word.
+  + Stretch goals - 
+  + Point system tied to an individual user - the more you quiz and succeed the more points you get! 
+  + Leader board to go with the point system?
+  + Flip animations for the flash-cards
+  + Responsive Web Design for phone-laptop-tablet usability 
+  + Incorporate audio files into the flashcard so you can HEAR how to properly pronounce the word too!
+  + Google translate link somewhere /Google translate API 
+  + Functionality to edit the flashcard to incorporate your preferred acronym/synonym etc.
 
 ## **User Stories**
 
@@ -77,3 +89,4 @@ Use database storage to store search results for as long as a User’s profile e
 
 
 ![Image](/home/mikegreene/codefellows/301/LexiCap/images/ERDLexicApp.png)
+
