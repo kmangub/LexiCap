@@ -70,3 +70,10 @@ Use database storage to store search results for as long as a User’s profile e
 
 
 ![Image](/home/mikegreene/codefellows/301/LexiCap/teamMAKH-Domain-Model.png)
+
+
+
+## **Domain Model**
+
+
+![Image](/home/mikegreene/codefellows/301/LexiCap/ERDLexicApp.png)
