@@ -23,11 +23,30 @@ app.set('view engine', 'ejs');
 
 //Routes
 app.get('/', (request, response) => {
-  console.log('like anything');
-  response.status(200).send('working');
-  //response.send(request.body);
+  response.render('pages/index');
 });
 
+app.post('/searchWord', searchHandler);
+
+let wordArr = [];
+function searchHandler(request, response) {
+  const searchedWord = request.body.search;
+  const dAPI = process.env.DICT_API;
+  const URL = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${searchedWord}?key=${dAPI}`;
+
+  let word = '';
+  let def = '';
+  let sentence = '';
+  let img = '';
+  let quote = '';
+  
+  superagent.get(URL)
+    .then(data => {
+      def = data.body[0].shortdef;
+    });
+
+  wordArr.push(new SavedWord(word, def, sentence, img, quote));
+}
 
 client.connect()
   .then(() => {
@@ -37,4 +56,12 @@ client.connect()
   }).catch(error => {
     console.log('ERROR', error);
   });
+
+  function SavedWord(word, def, sentence, img, quote){
+    this.word = word;
+    this.def = def;
+    this.sentence = sentence;
+    this.img = img;
+    this.quote = quote;
+  }
 
