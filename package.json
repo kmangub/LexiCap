@@ -1,0 +1,28 @@
+{
+  "name": "LexiCap",
+  "version": "1.0.0",
+  "description": "### *An app allowing for English language definition and review. Users may search definitions for words, while being provided proper pronunciations, use in a sentence, the word used in a quote by a famous individual, and a picture of the activity or item, if available.*",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/micgreene/LexiCap.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/micgreene/LexiCap/issues"
+  },
+  "homepage": "https://github.com/micgreene/LexiCap#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^8.5.1",
+    "superagent": "^6.1.0"
+  }
+}
