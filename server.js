@@ -13,6 +13,22 @@ require('dotenv').config();
 
 const client = new pg.Client(process.env.DB_URL);
 
+//Decode POST data
+app.use(express.urlencoded({ extended: true }));
+
+
+//set default view engine
+app.set('view engine', 'ejs');
+
+
+//Routes
+app.get('/', (request, response) => {
+  console.log('like anything');
+  response.status(200).send('working');
+  //response.send(request.body);
+});
+
+
 client.connect()
   .then(() => {
     app.listen(PORT, () => {
