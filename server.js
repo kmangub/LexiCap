@@ -33,35 +33,39 @@ app.post('/searchWord', searchHandler);
 
 
 
-let def = '';
-
 let wordArr = [];
 
 function searchHandler(request, response) {
   
   const searchedWord = request.body.search;
-  console.log('Searched word: ', searchedWord);
+  var def = '';
+  var quote = '';
 
-  // obClient.define('owl').then(function (result) {
-  //   console.log('owlb: ', result);
-  // }).catch(error => {
-  //   console.log('error', error);
-  // });
+ 
 
 
   let dAPI = process.env.DICT_API;
-  let URL = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${searchedWord}?key=${dAPI}`;
-  superagent.get(URL)
+  let dURL = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${searchedWord}?key=${dAPI}`;
+  superagent.get(dURL)
     .then(data => {
-      console.log('dict: ', data.body[0].shortdef);
-      def = data.body[0].shortdef;
+      console.log('dict: ', data.body[0].shortdef[0]);
+      def = data.body[0].shortdef[0];
+    });
+
+    let tAPI = process.env.THES_API;
+  let tURL = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${searchedWord}?key=${tAPI}`;
+  superagent.get(tURL)
+    .then(data => {
+      //syn = data.body[0].meta.syns;
+      //ant = data.body[0].meta.ants;
     });
 
 
   let qAPI = process.env.QUOTE_API;
   let URL2 = `https://favqs.com/api/quotes/?filter=${searchedWord}`;
   superagent.get(URL2).set('Authorization', `Bearer ${qAPI}`).then(data => {
-    console.log('quotes: ', data.body.quotes);
+    quote = data.body.quotes[0].body;
+    console.log('quotes: ', data.body.quotes[0].body);
   });
 
   // let tAPI
@@ -72,7 +76,14 @@ function searchHandler(request, response) {
   // let img = '';
   // let quote = '';
   // wordArr.push(new SavedWord(word, def, sentence, img, quote));
-  response.render('pages/searchResults');
+  let newWord = new SavedWord(searchedWord, def, 'sentence', 'img', quote);
+  response.render('pages/searchResults', {word: newWord});
+
+   // obClient.define('owl').then(function (result) {
+  //   console.log('owlb: ', result);
+  // }).catch(error => {
+  //   console.log('error', error);
+  // });
 }
 
 client.connect()
