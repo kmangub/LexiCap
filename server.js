@@ -7,12 +7,16 @@ const pg = require('pg');
 const superagent = require('superagent');
 const cors = require('cors');
 const Owlbot = require('owlbot-js');
+const methodOverride = require('method-override');
 
 //declare our PORT
 const PORT = process.env.PORT || 3000;
 
 //bring in da cors
 app.use(cors());
+
+//use method override
+app.use(methodOverride('_method'));
 
 //configure dotenv environmental variables
 require('dotenv').config();
@@ -34,6 +38,7 @@ app.get('/', (request, response) => {
 });
 app.post('/searchWord', searchHandler);
 app.post('/add', addHandler);
+app.delete('/delete', deleteHandler);
 
 //route handlers
 function searchHandler(request, response) {
@@ -78,7 +83,7 @@ function searchHandler(request, response) {
     //Promise.all resolves allllll promises, then returns their data in a single large array
     Promise.all([pooperagent, scooperagent, duperagent, owlbutt])
       .then(results => {
-        console.log('Results from Promise.all(): ', results);
+        //console.log('Results from Promise.all(): ', results);
         response.render('pages/searchResults', { word: results, searchedWord: searchedWord });
       });
   }
@@ -89,20 +94,38 @@ function searchHandler(request, response) {
 }
 
 function addHandler(request, response) {
+  console.log('"running add route"');
   let addWordSQL = 'INSERT INTO words (word, definitions, synonyms, image_url, quote) VALUES ($1, $2, $3, $4, $5) returning *;';
-  //const parsedDefs = JSON.stringify(request.body.definitions);
-  //const parsedSyns = JSON.stringify(request.body.synonyms);
-  const sqlParams = [request.body.word, request.body.definitions, request.body.synonyms, request.body.image_url, request.body.quote];  
-  client.query(addWordSQL, sqlParams).then(results => {
-    
-    
-  });
+
+  const parsedDefs = JSON.stringify(request.body.definitions);
+  const parsedSyns = JSON.stringify(request.body.synonyms);
+
+  const sqlParams = [request.body.word, parsedDefs, parsedSyns, request.body.image_url, request.body.quote];
+  client.query(addWordSQL, sqlParams).then();
 
   let getTableSQL = 'SELECT * from words;';
   client.query(getTableSQL)
     .then(results => {
+      //console.log('Types Results: ', results.rows[(results.rows.length - 1)]);
+
+      // results.rows.forEach(object => {
+      //   // JSON.parse(object.definitons);
+      //   // JSON.parse(object.synonyms);
+      // });
+      results.rows.forEach(object => {
+        let parseMe = JSON.parse(object.definitions);
+        object.definitions = parseMe;
+        let parseMe2 = JSON.parse(object.synonyms);
+        object.synonyms = parseMe2;
+      });
+      
+      console.log('parsed array: ', results.rows);
       response.render('pages/collection', { wordList: results.rows });
     });
+}
+
+function deleteHandler(request, response) {
+  console.log('baleted!');
 }
 
 //connect to client
