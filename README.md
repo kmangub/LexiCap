@@ -90,3 +90,7 @@ Use database storage to store search results for as long as a User’s profile e
 
 ![Image](images/ERDLexicApp.png)
 
+
+ 
+
+    
