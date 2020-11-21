@@ -1,0 +1,16 @@
+@import "layout.css";
+@import "modules.css";
+
+#logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20vw;
+}
+
+#search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}

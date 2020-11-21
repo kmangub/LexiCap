@@ -17,7 +17,7 @@ app.use(cors());
 
 //use method override
 app.use(methodOverride('_method'));
-
+app.use(express.static('public'));
 //configure dotenv environmental variables
 require('dotenv').config();
 
