@@ -41,6 +41,7 @@ function searchHandler(request, response) {
     //creating variables
     const searchedWord = request.body.search;
     let defArr = [];
+
     //Dictionary API call
     let dAPI = process.env.DICT_API;
     let dURL = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${searchedWord}?key=${dAPI}`;
@@ -57,7 +58,7 @@ function searchHandler(request, response) {
     let tURL = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${searchedWord}?key=${tAPI}`;
     const scooperagent = superagent.get(tURL)
       .then(data => {
-        let syn = data.body[0].meta ? data.body[0].meta.syns[0] : ['No Common Synonyms'];
+        let syn = data.body[0].meta.syns[0];
         return syn;
       });
 
@@ -70,7 +71,7 @@ function searchHandler(request, response) {
 
     //OwlBot API call requires its own client setup
     const owlbutt = obClient.define(searchedWord).then(function (result) {
-      return result.definitions[0];
+      return (result.definitions[0]);
     }).catch(error => {
       console.log('error', error);
     });
@@ -78,8 +79,8 @@ function searchHandler(request, response) {
     //Promise.all resolves allllll promises, then returns their data in a single large array
     Promise.all([pooperagent, scooperagent, duperagent, owlbutt])
       .then(results => {
-        console.log('Results from Promise.all(): ', results);
-        response.render('pages/searchResults', { word: results, searchedWord: searchedWord });
+        //console.log(results);
+        response.render('pages/searchResults', { word: results });
       });
   }
   catch (error) {
@@ -89,20 +90,12 @@ function searchHandler(request, response) {
 }
 
 function addHandler(request, response) {
-  let addWordSQL = 'INSERT INTO words (word, definitions, synonyms, image_url, quote) VALUES ($1, $2, $3, $4, $5) returning *;';
-  //const parsedDefs = JSON.stringify(request.body.definitions);
-  //const parsedSyns = JSON.stringify(request.body.synonyms);
-  const sqlParams = [request.body.word, request.body.definitions, request.body.synonyms, request.body.image_url, request.body.quote];  
-  client.query(addWordSQL, sqlParams).then(results => {
-    
-    
-  });
-
-  let getTableSQL = 'SELECT * from words;';
-  client.query(getTableSQL)
-    .then(results => {
-      response.render('pages/collection', { wordList: results.rows });
-    });
+  let SQL = 'INSERT INTO words (word, image_url, quote) VALUES ($1, $2, $3) returning *;';
+  const sqlParams = [request.body.word, request.body.image_url, request.body.quote];
+  client.query(SQL, sqlParams).then(results => {
+    console.log(results);
+    response.status(200).render('pages/collection');
+  })
 }
 
 //connect to client
