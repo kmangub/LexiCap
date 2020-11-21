@@ -29,13 +29,11 @@
     <ul>
       <li><img src="<%= word.image_url %>"></li>
     </ul>
-    <form action="/delete ?_method=DELETE" method="POST">
+
+    <form action="/delete/<%= word.id %>?_method=DELETE" method="POST">
       <fieldset>
-        <input type="hidden" name="word" value="">
-        <input type="hidden" name="definitions" value="<% word.definitions %>">
-        <input type="hidden" name="synonyms" value="<% word.synonyms %>">
-        <input type="hidden" name="image_url" value="<%= word.image_url %>">
-        <input type="hidden" name="quote" value="<%= word.quote %>">
+        <input type="hidden" name="words" value="<%= wordList %>">
+        <input type="hidden" name="id" value="<%= word.id %>">      
         <button type="submit">Delete</button>
       </fieldset>
     </form>

@@ -38,7 +38,7 @@ app.get('/', (request, response) => {
 });
 app.post('/searchWord', searchHandler);
 app.post('/add', addHandler);
-app.delete('/delete', deleteHandler);
+app.delete('/delete/:id', deleteHandler);
 
 //route handlers
 function searchHandler(request, response) {
@@ -106,26 +106,37 @@ function addHandler(request, response) {
   let getTableSQL = 'SELECT * from words;';
   client.query(getTableSQL)
     .then(results => {
-      //console.log('Types Results: ', results.rows[(results.rows.length - 1)]);
-
-      // results.rows.forEach(object => {
-      //   // JSON.parse(object.definitons);
-      //   // JSON.parse(object.synonyms);
-      // });
       results.rows.forEach(object => {
         let parseMe = JSON.parse(object.definitions);
         object.definitions = parseMe;
         let parseMe2 = JSON.parse(object.synonyms);
         object.synonyms = parseMe2;
       });
-      
-      console.log('parsed array: ', results.rows);
       response.render('pages/collection', { wordList: results.rows });
     });
 }
 
 function deleteHandler(request, response) {
-  console.log('baleted!');
+  console.log('params: ', request.params);
+  console.log('req.body: ', request.body);
+  console.log('Word List at 0: ', request.body.words[0]);
+  const SQL = 'DELETE from words WHERE id = $1;';
+  // const parsedDefs = JSON.stringify(request.body.definitions);
+  // const parsedSyns = JSON.stringify(request.body.synonyms);
+  const sqlParams = [request.body.id];
+  client.query(SQL, sqlParams).then(()=>{ });
+
+  let getTableSQL = 'SELECT * from words;';
+  client.query(getTableSQL)
+    .then(results => {
+      results.rows.forEach(object => {
+        let parseMe = JSON.parse(object.definitions);
+        object.definitions = parseMe;
+        let parseMe2 = JSON.parse(object.synonyms);
+        object.synonyms = parseMe2;
+      });
+      response.render('pages/collection', { wordList: results.rows });
+    });
 }
 
 //connect to client
