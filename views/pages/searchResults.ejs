@@ -6,6 +6,7 @@
   <title>Document</title>
 </head>
 <body>
+  <h1><%= searchedWord.toUpperCase() %></h1>
   <h3>Definitions:</h3>
   <ul>
   <% word[0].forEach(element => { %>
@@ -31,8 +32,15 @@
 </ul>
 <form action="/add" method="POST">
   <fieldset>
-    <input type="hidden" name="word" value="">
-    <input type="hidden" name="image_url" value="<%= word[3].image_url %>">
+    <input type="hidden" name="word" value="<%= searchedWord %>">
+    <% word[0].forEach((element, indx) => { %>
+      <input type="hidden" name="definitions[]" value="<%= element %>">
+    <% }) %>    
+    <% word[1].forEach(element => { %>
+      <input type="hidden" name="synonyms[]" value="<%= element %>">
+    <% }) %>
+    <% var pic = word[3].image_url ? word[3].image_url : 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png' %>
+    <input type="hidden" name="image_url" value="<%= pic %>">
     <input type="hidden" name="quote" value="<%= word[2] %>">
     <button type="submit">SAVE</button>
   </fieldset>
