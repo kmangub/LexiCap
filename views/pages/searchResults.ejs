@@ -28,7 +28,7 @@
 
 <h3>Pic:</h3>
   <ul>
-    <li><img src= "<%= word[3].image_url %>" ></li>
+    <li><img src= "<%= word[3].image_url ? word[3].image_url : 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png' %>" ></li>
 </ul>
 <form action="/add" method="POST">
   <fieldset>
