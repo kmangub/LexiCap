@@ -38,6 +38,7 @@ app.get('/', (request, response) => {
 });
 app.post('/searchWord', searchHandler);
 app.post('/add', addHandler);
+app.get('/collection', collectionHandler);
 app.delete('/delete/:id', deleteHandler);
 
 //route handlers
@@ -101,8 +102,10 @@ function addHandler(request, response) {
   const parsedSyns = JSON.stringify(request.body.synonyms);
 
   const sqlParams = [request.body.word, parsedDefs, parsedSyns, request.body.image_url, request.body.quote];
-  client.query(addWordSQL, sqlParams).then();
+  client.query(addWordSQL, sqlParams).then(() => response.redirect('/collection'));
+}
 
+function collectionHandler(request, response) {
   let getTableSQL = 'SELECT * from words;';
   client.query(getTableSQL)
     .then(results => {
