@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include('../layout/head') %>
 </head>
+
 <body>
-  <div id="logo">
-  <img src="image0.png" alt="logo of lexicapp" width="450px">
+  <header>
+    <%- include('../layout/header') %>
+  </header>
+  <img id="logo" src="image0.png" alt="logo of lexicapp">
+  <div id="searchDiv">
+    <form id="searchIndex" action="/searchWord" method="POST">
+      <fieldset>
+        <input id="search" style="width: 20vw;" type="text" name="search" placeholder="fill me with your words">
+        <button type="submit">press me</button>
+      </fieldset>
+    </form>
   </div>
-  <br>
-  
-  <form id="search" action="/searchWord" method="POST">
-    <fieldset>
-      <input type="text" name="search" placeholder="Fill me with your words">
-      <button type="submit">Please press me</button>
-    </fieldset>
-  </form>
 </body>
+
 </html>
