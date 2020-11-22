@@ -1,0 +1,102 @@
+@import "layout.css";
+@import "modules.css";
+@import url('https://fonts.googleapis.com/css2?family=Modak&display=swap');
+
+body {
+  background-color: skyblue;
+}
+
+#logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15vw;
+  border: 5px solid black;
+  border-radius: 20vw;
+  background-color: whitesmoke;
+  padding: 2vw;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 40vw;
+}
+
+#searchIndex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2vw;
+}
+
+#search [type=text] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+#searchDiv {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 2vw;
+}
+
+#searchDiv button {
+min-width: 2vw;
+}
+
+#navbar ul li {
+  margin: .5vw;
+  border-radius: 5px;
+  max-width: 7vw;
+  text-align: center;
+
+}
+
+#navbar ul {
+  display: flex;
+  flex-direction: row;
+}
+
+#navbar ul li a {
+  text-decoration: none;
+  color: black;
+  font-family: 'Modak', cursive;
+  font-size: 1vw;
+}
+
+#navbar button{
+  border: 2px black solid;
+  border-radius: 10px;
+  background-color: whitesmoke;
+}
+
+#navbar button :hover {
+  opacity: 20%;
+  color: whitesmoke;
+  background-color: black;
+  border-radius: 10vw;
+}
+
+
+.dev {
+  float: right;
+  margin: .5vw;
+  border: 2px black solid;
+  border-radius: 10px;
+  background-color: whitesmoke;
+  max-width: 7vw;
+  text-align: center;
+  
+}
+
+.dev a {
+  text-decoration: none;
+  color: black;
+  font-family: 'Modak', cursive;
+  font-size: 1vw;
+  
+}
