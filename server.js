@@ -106,7 +106,7 @@ function addHandler(request, response) {
 }
 
 function collectionHandler(request, response) {
-  let getTableSQL = 'SELECT * from words;';
+  let getTableSQL = 'SELECT * from words ORDER BY word ASC;';
   client.query(getTableSQL)
     .then(results => {
       results.rows.forEach(object => {

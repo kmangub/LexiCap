@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Word Collection</title>
-</head>
-<body>
+  <head>
+    <%- include('../layout/head') %>
+    <title>My Collection</title>
+  </head>  
+  <body>
+    <section id="flashCard">
+      <header>
+        <%- include('../layout/header') %>
+      </header>
   <% wordList.forEach(word => { %>
     <h1><%= word.word %></h1>
     <h3>Definitions:</h3>
