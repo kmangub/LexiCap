@@ -17,7 +17,7 @@ app.use(cors());
 
 //use method override
 app.use(methodOverride('_method'));
-
+app.use(express.static('public'));
 //configure dotenv environmental variables
 require('dotenv').config();
 
@@ -38,6 +38,7 @@ app.get('/', (request, response) => {
 });
 app.post('/searchWord', searchHandler);
 app.post('/add', addHandler);
+app.get('/collection', collectionHandler);
 app.delete('/delete/:id', deleteHandler);
 
 //route handlers
@@ -102,9 +103,11 @@ function addHandler(request, response) {
   const parsedSyns = JSON.stringify(request.body.synonyms);
 
   const sqlParams = [request.body.word, parsedDefs, parsedSyns, request.body.image_url, request.body.quote];
-  client.query(addWordSQL, sqlParams).then();
+  client.query(addWordSQL, sqlParams).then(() => response.redirect('/collection'));
+}
 
-  let getTableSQL = 'SELECT * from words;';
+function collectionHandler(request, response) {
+  let getTableSQL = 'SELECT * from words ORDER BY word ASC;';
   client.query(getTableSQL)
     .then(results => {
       results.rows.forEach(object => {
