@@ -7,6 +7,9 @@
 </head>
 
 <body>
+  <header>
+    <%- include('../layout/header') %>
+  </header>
   <section id="searchResult">
     <header>
       <%- include('../layout/header') %>
@@ -32,7 +35,7 @@
     <h3>Synonyms:</h3>
     <ul>
       <% word[1].forEach(element => { %>
-      <li><%= element %></li>
+      <li id="synonyms"><%= element %>, </li>
       <% }) %>
     </ul>
 
@@ -51,6 +54,8 @@
       <li> "<%= word[2].body %>" </li>
       <li>                             - <%= word[2].author %> </li>
     </ul>
+    <br>
+    <br>
 
     <form action="/add" method="POST">
       <fieldset>

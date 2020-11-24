@@ -4,7 +4,13 @@
     <%- include('../layout/head') %>
     <title>My Collection</title>
   </head>  
+
+
   <body>
+    <header>
+      <%- include('../layout/header') %>
+    </header>
+    <% wordList.forEach(word => { %>
     <section id="flashCard">
       <header>
         <%- include('../layout/header') %>
@@ -24,10 +30,12 @@
         <li><%= innerWord %></li>
         <% }) %>
     </ul>
+    <br>
+    <br>
     <h3>Synonyms:</h3>
     <ul>
       <% word.synonyms.forEach(innerWord => { %>
-        <li><%= innerWord %></li>
+        <li id="synonyms"><%= innerWord %></li>
         <% }) %>
     </ul>
     <h3>Example:</h3>
@@ -52,6 +60,7 @@
         <button type="submit">Delete</button>
       </fieldset>
     </form>
+  </section>
   <% }); %>
 
 </body>
