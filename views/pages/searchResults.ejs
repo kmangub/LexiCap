@@ -7,55 +7,41 @@
 </head>
 
 <body>
+  <header>
+    <%- include('../layout/header') %>
+  </header>
   <section id="searchResult">
-    <header>
-      <%- include('../layout/header') %>
-    </header>
-    <h1><%= searchedWord.toUpperCase() %></h1>
+    <ul>
+      <li><img src="<%= word[3].image_url %>"></li>
+    </ul>
+    <u><h1 id="wordTitle"><%= searchedWord.toUpperCase() %></h1></u>
+    <br>
+<br>
+    
     <h3>Definitions:</h3>
     <ul>
       <% word[0].forEach(element => { %>
       <li><%= element %></li>
       <% }) %>
     </ul>
-
+<br>
+<br>
     <h3>Synonyms:</h3>
     <ul>
       <% word[1].forEach(element => { %>
-      <li><%= element %></li>
+      <li id="synonyms"><%= element %>, </li>
       <% }) %>
     </ul>
 
-    <h3>Quotes:</h3>
-    <ul>
-      <li> <%= word[2] %> </li>
-    </ul>
+    <br>
+    <br>
 
-<<<<<<< HEAD
-<h3>Pic:</h3>
-  <ul>
-    <li><img src= "<%= word[3].image_url ? word[3].image_url : 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png' %>" ></li>
-</ul>
-<form action="/add" method="POST">
-  <fieldset>
-    <input type="hidden" name="word" value="<%= searchedWord %>">
-    <% word[0].forEach((element, indx) => { %>
-      <input type="hidden" name="definitions[]" value="<%= element %>">
-    <% }) %>    
-    <% word[1].forEach(element => { %>
-      <input type="hidden" name="synonyms[]" value="<%= element %>">
-    <% }) %>
-    <% var pic = word[3].image_url ? word[3].image_url : 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png' %>
-    <input type="hidden" name="image_url" value="<%= pic %>">
-    <input type="hidden" name="quote" value="<%= word[2] %>">
-    <button type="submit">SAVE</button>
-  </fieldset>
-</form>
-=======
-    <h3>Pic:</h3>
+    <h3>Quote:</h3>
     <ul>
-      <li><img src="<%= word[3].image_url %>"></li>
+      <li> "<%= word[2] %>"</li>
     </ul>
+    <br>
+    <br>
 
     <form action="/add" method="POST">
       <fieldset>
@@ -73,7 +59,6 @@
       </fieldset>
     </form>
   </section>
->>>>>>> 761f0e37aec71c48a1922d4a1b92d12963f580a2
 </body>
 
 </html>
