@@ -12,12 +12,22 @@
       <%- include('../layout/header') %>
     </header>
     <h1><%= searchedWord.toUpperCase() %></h1>
+    <h2> <%= word[3].pronunciation %></h2>
+    <div><%= word[3].definitions[0].emoji %></div>
+    <h2> <%= word[3].definitions[0].type %> </h2>
+
+    <audio controls>
+      <% let str = word[0].hwi.prs[0].sound.audio.split(''); %>
+      <% let temp = str[0]; %>
+      <source src="https://media.merriam-webster.com/audio/prons/en/us/mp3/<%=`${temp}`%>/<%=`${word[0].hwi.prs[0].sound.audio}`%>.mp3" type="audio/mpeg">
+    </audio>
+
     <h3>Definitions:</h3>
     <ul>
-      <% word[0].forEach(element => { %>
+      <% word[0].shortdef.forEach(element => { %>
       <li><%= element %></li>
       <% }) %>
-    </ul>
+    </ul>    
 
     <h3>Synonyms:</h3>
     <ul>
@@ -26,54 +36,52 @@
       <% }) %>
     </ul>
 
-    <h3>Quotes:</h3>
+    <h3>Example:</h3>
     <ul>
-      <li> <%= word[2] %> </li>
+      <li> <%= word[3].definitions[0].example %> </li>
     </ul>
 
-<<<<<<< HEAD
-<h3>Pic:</h3>
-  <ul>
-    <li><img src= "<%= word[3].image_url ? word[3].image_url : 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png' %>" ></li>
-</ul>
-<form action="/add" method="POST">
-  <fieldset>
-    <input type="hidden" name="word" value="<%= searchedWord %>">
-    <% word[0].forEach((element, indx) => { %>
-      <input type="hidden" name="definitions[]" value="<%= element %>">
-    <% }) %>    
-    <% word[1].forEach(element => { %>
-      <input type="hidden" name="synonyms[]" value="<%= element %>">
-    <% }) %>
-    <% var pic = word[3].image_url ? word[3].image_url : 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png' %>
-    <input type="hidden" name="image_url" value="<%= pic %>">
-    <input type="hidden" name="quote" value="<%= word[2] %>">
-    <button type="submit">SAVE</button>
-  </fieldset>
-</form>
-=======
     <h3>Pic:</h3>
     <ul>
-      <li><img src="<%= word[3].image_url %>"></li>
+      <li><img src="<%= word[3].definitions[0].image_url %>"></li>
+    </ul>
+
+    <h3>Quotes:</h3>
+    <ul>
+      <li> "<%= word[2].body %>" </li>
+      <li>                             - <%= word[2].author %> </li>
     </ul>
 
     <form action="/add" method="POST">
       <fieldset>
         <input type="hidden" name="word" value="<%= searchedWord %>">
-        <% word[0].forEach((element, indx) => { %>
-        <input type="hidden" name="definitions[]" value="<%= element %>">
+
+        <input type="hidden" name="pronunciation" value="<%= word[3].pronunciation %>"> 
+
+        <input type="hidden" name="prtSpeech" value="<%= word[3].definitions[0].type %>">
+
+        <input type="hidden" name="sound" value="https://media.merriam-webster.com/audio/prons/en/us/mp3/<%=`${temp}`%>/<%=`${word[0].hwi.prs[0].sound.audio}`%>.mp3">
+        
+        <% word[0].shortdef.forEach((element, indx) => { %>
+          <input type="hidden" name="definitions[]" value="<%= element %>">
         <% }) %>
+
         <% word[1].forEach(element => { %>
         <input type="hidden" name="synonyms[]" value="<%= element %>">
         <% }) %>
-        <% var pic = word[3].image_url ? word[3].image_url : 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png' %>
+        
+        <input type="hidden" name="example" value="<%= word[3].definitions[0].example %>">
+
+        <% var pic = word[3].definitions[0].image_url ? word[3].definitions[0].image_url : 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png' %>
         <input type="hidden" name="image_url" value="<%= pic %>">
-        <input type="hidden" name="quote" value="<%= word[2] %>">
+
+        <input type="hidden" name="quote" value="<%= word[2].body %>">
+        <input type="hidden" name="author" value="<%= word[2].author %>">
+
         <button type="submit">SAVE</button>
       </fieldset>
     </form>
   </section>
->>>>>>> 761f0e37aec71c48a1922d4a1b92d12963f580a2
 </body>
 
 </html>
