@@ -1,5 +1,21 @@
-<% wordList.forEach(word => { %>
-  <% word.definitions.forEach(innerWord => { %>
-  <li><%= innerWord %></li>
-  <% }) %>
-<% }) %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../layout/head') %>
+  <title>Error</title>
+</head>
+
+<body>
+  <header>
+    <%- include('../layout/header') %>
+  </header>
+  <div id="wordNF">Word Not Found!</div>
+  <div id="errorSection">
+    <img id="caution" src="caution.png" alt="caution sign">
+  </div>
+</body>
+
+</html>
+
