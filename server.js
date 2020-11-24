@@ -52,6 +52,9 @@ function searchHandler(request, response) {
     let dURL = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${searchedWord}?key=${dAPI}`;
     const pooperagent = superagent.get(dURL)
       .then(data => {
+        if(data.body[0].shortdef === undefined){
+          return response.render('pages/wordDetails');
+        }
         defArr = data.body[0].shortdef.map(element => {
           return element;
         });
@@ -84,7 +87,6 @@ function searchHandler(request, response) {
     //Promise.all resolves allllll promises, then returns their data in a single large array
     Promise.all([pooperagent, scooperagent, duperagent, owlbutt])
       .then(results => {
-        //console.log('Results from Promise.all(): ', results);
         response.render('pages/searchResults', { word: results, searchedWord: searchedWord });
       });
   }
@@ -95,7 +97,6 @@ function searchHandler(request, response) {
 }
 
 function addHandler(request, response) {
-  console.log('"running add route"');
   let addWordSQL = 'INSERT INTO words (word, definitions, synonyms, image_url, quote) VALUES ($1, $2, $3, $4, $5) returning *;';
 
   const parsedDefs = JSON.stringify(request.body.definitions);
@@ -120,12 +121,7 @@ function collectionHandler(request, response) {
 }
 
 function deleteHandler(request, response) {
-  console.log('params: ', request.params);
-  console.log('req.body: ', request.body);
-  console.log('Word List at 0: ', request.body.words[0]);
   const SQL = 'DELETE from words WHERE id = $1;';
-  // const parsedDefs = JSON.stringify(request.body.definitions);
-  // const parsedSyns = JSON.stringify(request.body.synonyms);
   const sqlParams = [request.body.id];
   client.query(SQL, sqlParams).then(()=>{ });
 
