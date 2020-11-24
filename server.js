@@ -17,7 +17,12 @@ app.use(cors());
 
 //use method override
 app.use(methodOverride('_method'));
+
+
+//make public folder visible
 app.use(express.static('public'));
+
+
 //configure dotenv environmental variables
 require('dotenv').config();
 
@@ -43,24 +48,31 @@ app.delete('/delete/:id', deleteHandler);
 app.get('/createCard', createCardHandler);
 app.post('/card', makeCard)
 
+
 //route handlers
 function searchHandler(request, response) {
   try {
     //creating variables
     const searchedWord = request.body.search;
     let defArr = [];
+
     //Dictionary API call
     let dAPI = process.env.DICT_API;
     let dURL = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${searchedWord}?key=${dAPI}`;
     const pooperagent = superagent.get(dURL)
       .then(data => {
-        if (data.body[0].shortdef === undefined) {
+
+        
+        //checks if word is not defined and redirects user to 'word not found page' if so
+        if(data.body[0].shortdef === undefined){
           return response.render('pages/wordDetails');
         }
-        defArr = data.body[0].shortdef.map(element => {
-          return element;
-        });
-        return defArr;
+        // defArr = data.body[0].shortdef.map(element => {
+        //   return element;
+        // });
+        console.log('sound route: ', data.body[0].hwi.prs[0].sound.audio);
+        return data.body[0]
+
       });
 
     //Thesaurus API call
@@ -76,12 +88,12 @@ function searchHandler(request, response) {
     let qAPI = process.env.QUOTE_API;
     let URL2 = `https://favqs.com/api/quotes/?filter=${searchedWord}`;
     const duperagent = superagent.get(URL2).set('Authorization', `Bearer ${qAPI}`).then(data => {
-      return data.body.quotes[0].body;
+      return data.body.quotes[0];
     });
 
     //OwlBot API call requires its own client setup
     const owlbutt = obClient.define(searchedWord).then(function (result) {
-      return result.definitions[0];
+      return result;
     }).catch(error => {
       console.log('error', error);
     });
@@ -89,6 +101,12 @@ function searchHandler(request, response) {
     //Promise.all resolves allllll promises, then returns their data in a single large array
     Promise.all([pooperagent, scooperagent, duperagent, owlbutt])
       .then(results => {
+
+        //checks if word is not found in owlbot and redirects user to 'word not found page' if so
+        if(results[3] === undefined){
+          return response.render('pages/wordDetails');
+        }
+
         response.render('pages/searchResults', { word: results, searchedWord: searchedWord });
       });
   }
@@ -99,12 +117,16 @@ function searchHandler(request, response) {
 }
 
 function addHandler(request, response) {
-  let addWordSQL = 'INSERT INTO words (word, definitions, synonyms, image_url, quote) VALUES ($1, $2, $3, $4, $5) returning *;';
+
+  let addWordSQL = 'INSERT INTO words (word, pronunciation,prtSpeech, sound, definitions, synonyms, example, image_url, quote, author) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *;';
+
 
   const parsedDefs = JSON.stringify(request.body.definitions);
   const parsedSyns = JSON.stringify(request.body.synonyms);
 
-  const sqlParams = [request.body.word, parsedDefs, parsedSyns, request.body.image_url, request.body.quote];
+
+  const sqlParams = [request.body.word, request.body.pronunciation, request.body.prtSpeech, request.body.sound, parsedDefs, parsedSyns, request.body.example, request.body.image_url, request.body.quote, request.body.author];
+
   client.query(addWordSQL, sqlParams).then(() => response.redirect('/collection'));
 }
 
@@ -125,7 +147,9 @@ function collectionHandler(request, response) {
 function deleteHandler(request, response) {
   const SQL = 'DELETE from words WHERE id = $1;';
   const sqlParams = [request.body.id];
-  client.query(SQL, sqlParams).then(() => { });
+
+  client.query(SQL, sqlParams).then(()=>{ });
+
 
   let getTableSQL = 'SELECT * from words;';
   client.query(getTableSQL)
@@ -138,6 +162,7 @@ function deleteHandler(request, response) {
       });
       response.render('pages/collection', { wordList: results.rows });
     });
+
 }
 
 function createCardHandler(request, response) {
@@ -161,6 +186,10 @@ function makeCard(request, response) {
       response.redirect('/collection')
     });
 }
+
+
+
+
 
 
 //connect to client
