@@ -101,6 +101,30 @@ min-width: 2vw;
   
 }
 
+
+
+/* ------------ ERROR SECTION -------------- */
+
+#wordNF {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Modak', cursive;
+  color: black;
+  font-size: 2.5vw;
+}
+
+#caution {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  max-width: 45vw;
+}
+
+
 /* Search Results Page */
 #searchResult {
 width: 500px;
@@ -146,5 +170,4 @@ h3{
   #pic {
     width: 250px
   }
-  
-  
+
