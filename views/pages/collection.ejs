@@ -12,6 +12,7 @@
     </header>
     <% wordList.forEach(word => { %>
     <section id="flashCard">
+
       <header>
         <%- include('../layout/header') %>
       </header>
@@ -38,6 +39,7 @@
         <li id="synonyms"><%= innerWord %></li>
         <% }) %>
     </ul>
+
     <h3>Example:</h3>
     <ul>
       <li> <%= word.example %> </li>

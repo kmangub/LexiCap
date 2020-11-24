@@ -102,6 +102,7 @@ min-width: 2vw;
 }
 
 
+
 /* ------------ ERROR SECTION -------------- */
 
 #wordNF {
@@ -122,6 +123,7 @@ min-width: 2vw;
   z-index: -1;
   max-width: 45vw;
 }
+
 
 /* Search Results Page */
 #searchResult {
@@ -168,3 +170,4 @@ h3{
   #pic {
     width: 250px
   }
+

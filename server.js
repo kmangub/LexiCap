@@ -18,8 +18,10 @@ app.use(cors());
 //use method override
 app.use(methodOverride('_method'));
 
+
 //make public folder visible
 app.use(express.static('public'));
+
 
 //configure dotenv environmental variables
 require('dotenv').config();
@@ -43,6 +45,9 @@ app.post('/searchWord', searchHandler);
 app.post('/add', addHandler);
 app.get('/collection', collectionHandler);
 app.delete('/delete/:id', deleteHandler);
+app.get('/createCard', createCardHandler);
+app.post('/card', makeCard)
+
 
 //route handlers
 function searchHandler(request, response) {
@@ -56,6 +61,7 @@ function searchHandler(request, response) {
     let dURL = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${searchedWord}?key=${dAPI}`;
     const pooperagent = superagent.get(dURL)
       .then(data => {
+
         
         //checks if word is not defined and redirects user to 'word not found page' if so
         if(data.body[0].shortdef === undefined){
@@ -66,6 +72,7 @@ function searchHandler(request, response) {
         // });
         console.log('sound route: ', data.body[0].hwi.prs[0].sound.audio);
         return data.body[0]
+
       });
 
     //Thesaurus API call
@@ -94,10 +101,12 @@ function searchHandler(request, response) {
     //Promise.all resolves allllll promises, then returns their data in a single large array
     Promise.all([pooperagent, scooperagent, duperagent, owlbutt])
       .then(results => {
+
         //checks if word is not found in owlbot and redirects user to 'word not found page' if so
         if(results[3] === undefined){
           return response.render('pages/wordDetails');
         }
+
         response.render('pages/searchResults', { word: results, searchedWord: searchedWord });
       });
   }
@@ -108,12 +117,16 @@ function searchHandler(request, response) {
 }
 
 function addHandler(request, response) {
+
   let addWordSQL = 'INSERT INTO words (word, pronunciation,prtSpeech, sound, definitions, synonyms, example, image_url, quote, author) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *;';
+
 
   const parsedDefs = JSON.stringify(request.body.definitions);
   const parsedSyns = JSON.stringify(request.body.synonyms);
 
+
   const sqlParams = [request.body.word, request.body.pronunciation, request.body.prtSpeech, request.body.sound, parsedDefs, parsedSyns, request.body.example, request.body.image_url, request.body.quote, request.body.author];
+
   client.query(addWordSQL, sqlParams).then(() => response.redirect('/collection'));
 }
 
@@ -134,7 +147,9 @@ function collectionHandler(request, response) {
 function deleteHandler(request, response) {
   const SQL = 'DELETE from words WHERE id = $1;';
   const sqlParams = [request.body.id];
+
   client.query(SQL, sqlParams).then(()=>{ });
+
 
   let getTableSQL = 'SELECT * from words;';
   client.query(getTableSQL)
@@ -147,7 +162,33 @@ function deleteHandler(request, response) {
       });
       response.render('pages/collection', { wordList: results.rows });
     });
+
 }
+
+function createCardHandler(request, response) {
+  response.render('pages/createCard');
+}
+
+function makeCard(request, response) {
+  let addCardSQL = 'INSERT INTO words (word, definitions, synonyms) VALUES ($1, $2, $3) returning *;';
+
+  const parsedDefCard = JSON.stringify(request.body.definitions);
+  const parsedSynsCard = JSON.stringify(request.body.synonyms);
+
+  console.log(request.body.word)
+  console.log(request.body.definitions)
+
+  const sqlParams = [request.body.word, parsedDefCard, parsedSynsCard];
+
+  client.query(addCardSQL, sqlParams)
+    .then(results => {
+      console.log(results.rows);
+      response.redirect('/collection')
+    });
+}
+
+
+
 
 
 
