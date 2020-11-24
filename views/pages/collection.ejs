@@ -1,44 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <%- include('../layout/head') %>
+    <title>My Collection</title>
+  </head>  
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Word Collection</title>
-</head>
-<body>
-  <% wordList.forEach(word => { %>
-    <h1><%= word.word %></h1>
+
+  <body>
+    <header>
+      <%- include('../layout/header') %>
+    </header>
+    <% wordList.forEach(word => { %>
+    <section id="flashCard">
+      <ul>
+        <li><img src="<%= word.image_url %>" id="pic"></li>
+      </ul>
+    <u><h1 id="wordTitle"><%= word.word %></h1></u>
+    <br>
+    <br>
     <h3>Definitions:</h3>
     <ul>
       <% word.definitions.forEach(innerWord => { %>
         <li><%= innerWord %></li>
         <% }) %>
     </ul>
+    <br>
+    <br>
     <h3>Synonyms:</h3>
     <ul>
       <% word.synonyms.forEach(innerWord => { %>
-        <li><%= innerWord %></li>
+        <li id="synonyms"><%= innerWord %></li>
         <% }) %>
     </ul>
-    <h3>Quotes:</h3>
-    <ul>
-      <li> <%= word.quote %> </li>
-    </ul>
-    <h3>Pic:</h3>
-    <ul>
-      <li><img src="<%= word.image_url %>"></li>
-    </ul>
-    <form action="/delete ?_method=DELETE" method="POST">
+    <br>
+    <br>
+    <% if (word.quote) { %>
+
+      <h3>Quotes:</h3>
+      <ul>
+        <li> "<%= word.quote %>" </li>
+      </ul>
+    <% } %>
+    <br>
+    <br>
+    <form action="/delete/<%= word.id %>?_method=DELETE" method="POST">
       <fieldset>
-        <input type="hidden" name="word" value="">
-        <input type="hidden" name="definitions" value="<% word.definitions %>">
-        <input type="hidden" name="synonyms" value="<% word.synonyms %>">
-        <input type="hidden" name="image_url" value="<%= word.image_url %>">
-        <input type="hidden" name="quote" value="<%= word.quote %>">
+        <input type="hidden" name="words" value="<%= wordList %>">
+        <input type="hidden" name="id" value="<%= word.id %>">      
         <button type="submit">Delete</button>
       </fieldset>
     </form>
+  </section>
   <% }); %>
 
 </body>
