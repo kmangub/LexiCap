@@ -5,6 +5,12 @@
   <%- include('../layout/head') %>
   <title>My Collection</title>
 </head>
+<body>
+<header>
+  <%- include('../layout/header') %>
+    </header>
+  <% wordList.forEach(word => { %>
+    <section id="flashCard">
     <h1><%= word.word %></h1>
     <br>
     <h2> <%= word.pronunciation %></h2>
