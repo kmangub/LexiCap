@@ -62,7 +62,6 @@ function searchHandler(request, response) {
     const pooperagent = superagent.get(dURL)
       .then(data => {
 
-        
         //checks if word is not defined and redirects user to 'word not found page' if so
         if(data.body[0].shortdef === undefined){
           return response.render('pages/wordDetails');
@@ -93,6 +92,7 @@ function searchHandler(request, response) {
 
     //OwlBot API call requires its own client setup
     const owlbutt = obClient.define(searchedWord).then(function (result) {
+      console.log(result.definitions);
       return result;
     }).catch(error => {
       console.log('error', error);
@@ -124,7 +124,7 @@ function addHandler(request, response) {
   const parsedDefs = JSON.stringify(request.body.definitions);
   const parsedSyns = JSON.stringify(request.body.synonyms);
 
-
+  console.log(request.body.prtSpeech);
   const sqlParams = [request.body.word, request.body.pronunciation, request.body.prtSpeech, request.body.sound, parsedDefs, parsedSyns, request.body.example, request.body.image_url, request.body.quote, request.body.author];
 
   client.query(addWordSQL, sqlParams).then(() => response.redirect('/collection'));

@@ -91,6 +91,8 @@ Use database storage to store search results for as long as a User’s profile e
 ![Image](images/ERDLexicApp.png)
 
 
-  
+  Used Code Depot (spare parts):
+
+  <% var pic = word[3].definitions[0].image_url ? word[3].definitions[0].image_url : 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png' %>
 
     
