@@ -11,6 +11,12 @@
     <%- include('../layout/header') %>
   </header>
   <section id="searchResult">
+   <% if(word[3].definitions[0].image_url){ %>
+      <h3>Pic:</h3>
+      <ul>
+        <li><img id="pic" src="<%= word[3].definitions[0].image_url %>"></li>
+      </ul>
+    <% } %>
     <h1><%= searchedWord.toUpperCase() %></h1>
     <h2> <%= word[3].pronunciation %></h2>
     <div><%= word[3].definitions[0].emoji %></div>
@@ -24,11 +30,13 @@
     <br>
     <br>
     <h3>Definitions:</h3>
-    <ul>
+    <br>
+    <ol id="orderedDef">
       <% word[0].shortdef.forEach(element => { %>
-      <li><%= element %></li>
+        <li id="listDef"><%= element %></li>
       <% }) %>
-    </ul>    
+      </ol> 
+
     <br>
     <% if(word[1]){ %>
       <h3>Synonyms:</h3>
@@ -46,24 +54,17 @@
       </ul>
     <% } %>
     <br>
-    <% if(word[3].definitions[0].image_url){ %>
-      <h3>Pic:</h3>
-      <ul>
-        <li><img src="<%= word[3].definitions[0].image_url %>"></li>
-      </ul>
-    <% } %>
+   
     <br>
     <% if(word[2].body){ %>
       <h3>Quotes:</h3>
       <ul>
         <li> "<%= word[2].body %>" </li>
-        <li>                            - <%= word[2].author %> </li>
+        <li> - <%= word[2].author %> </li>
       </ul>
     <% } %>
     <br>
     
-    <br>
-
     <form action="/add" method="POST">
       <fieldset>
         <input type="hidden" name="word" value="<%= searchedWord %>">

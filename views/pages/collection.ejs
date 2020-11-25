@@ -14,7 +14,9 @@
     <h1><%= word.word %></h1>
     <br>
     <h2> <%= word.pronunciation %></h2>
+
     <h2> <%= word.prtspeech %> </h2> 
+
     <br>
     <% if(word.sound){ %>
       <audio controls>
@@ -26,11 +28,11 @@
     <% } %>
     
     <h3>Definitions:</h3>
-      <ul>
-        <% word.definitions.forEach(innerWord => { %>
-          <li><%= innerWord %></li>
-          <% }) %>
-      </ul>
+          <ol id="orderedDef">
+      <% word.definitions.forEach(innerWord => { %>
+      <li id="listDef"><%= innerWord %></li>
+      <% }) %>
+    </ol>
       <br>
       <br>
     <% if(word.synonyms){ %>
