@@ -11,11 +11,12 @@
     <%- include('../layout/header') %>
   </header>
   <section id="searchResult">
+    <ul>
+      <li><img id="pic" src="<%= word[3].definitions[0].image_url %>"></li>
+    </ul>
+    <br><br>
 
-    <header>
-      <%- include('../layout/header') %>
-    </header>
-    <h1><%= searchedWord.toUpperCase() %></h1>
+    <h1 id="wordTitle"><%= searchedWord.toUpperCase() %></h1>
     <h2> <%= word[3].pronunciation %></h2>
     <div><%= word[3].definitions[0].emoji %></div>
     <h2> <%= word[3].definitions[0].type %> </h2>
@@ -25,7 +26,7 @@
       <% let temp = str[0]; %>
       <source src="https://media.merriam-webster.com/audio/prons/en/us/mp3/<%=`${temp}`%>/<%=`${word[0].hwi.prs[0].sound.audio}`%>.mp3" type="audio/mpeg">
     </audio>
-
+    <br><br>
     <h3>Definitions:</h3>
     <ul>
       <% word[0].shortdef.forEach(element => { %>
@@ -33,6 +34,7 @@
       <% }) %>
     </ul>    
 
+    <br><br>
 
     <h3>Synonyms:</h3>
     <ul>
@@ -41,16 +43,14 @@
       <% }) %>
     </ul>
 
+    <br><br>
 
-    <h3>Example:</h3>
+    <h3>Example Sentence:</h3>
     <ul>
       <li> <%= word[3].definitions[0].example %> </li>
     </ul>
 
-    <h3>Pic:</h3>
-    <ul>
-      <li><img src="<%= word[3].definitions[0].image_url %>"></li>
-    </ul>
+    <br><br>
 
     <h3>Quotes:</h3>
     <ul>
