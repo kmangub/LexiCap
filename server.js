@@ -39,6 +39,7 @@ app.set('view engine', 'ejs');
 
 //Routes
 app.get('/', (request, response) => {
+  console.log('started');
   response.render('pages/index');
 });
 app.post('/searchWord', searchHandler);
@@ -54,7 +55,6 @@ function searchHandler(request, response) {
   try {
     //creating variables
     const searchedWord = request.body.search;
-    let defArr = [];
 
     //Dictionary API call
     let dAPI = process.env.DICT_API;
@@ -86,7 +86,7 @@ function searchHandler(request, response) {
     });
 
     //OwlBot API call requires its own client setup
-    const owlbutt = obClient.define(searchedWord).then(function (result) {
+    const owlbutt = obClient.define(searchedWord).then(function (result) {      
       return result;
     }).catch(error => {
       console.log('error', error);
@@ -118,8 +118,7 @@ function addHandler(request, response) {
   const parsedDefs = JSON.stringify(request.body.definitions);
   const parsedSyns = JSON.stringify(request.body.synonyms);
 
-
-  const sqlParams = [request.body.word, request.body.pronunciation, request.body.prtSpeech, request.body.sound, parsedDefs, parsedSyns, request.body.example, request.body.image_url, request.body.quote, request.body.author];
+  const sqlParams = [request.body.word, request.body.pronunciation, request.body.prtspeech, request.body.sound, parsedDefs, parsedSyns, request.body.example, request.body.image_url, request.body.quote, request.body.author];
 
   client.query(addWordSQL, sqlParams).then(() => response.redirect('/collection'));
 }
