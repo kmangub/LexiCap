@@ -11,54 +11,57 @@
     <%- include('../layout/header') %>
   </header>
   <section id="searchResult">
-    <ul>
-      <li><img id="pic" src="<%= word[3].definitions[0].image_url %>"></li>
-    </ul>
-    <br><br>
-
-    <h1 id="wordTitle"><%= searchedWord.toUpperCase() %></h1>
+    <h1><%= searchedWord.toUpperCase() %></h1>
     <h2> <%= word[3].pronunciation %></h2>
     <div><%= word[3].definitions[0].emoji %></div>
-    <h2> <%= word[3].definitions[0].type %> </h2>
-
+    <h2> <%= word[3].definitions[0].type %> </h2>    
+    
     <audio controls>
       <% let str = word[0].hwi.prs[0].sound.audio.split(''); %>
       <% let temp = str[0]; %>
       <source src="https://media.merriam-webster.com/audio/prons/en/us/mp3/<%=`${temp}`%>/<%=`${word[0].hwi.prs[0].sound.audio}`%>.mp3" type="audio/mpeg">
     </audio>
-    <br><br>
+    <br>
+    <br>
     <h3>Definitions:</h3>
     <ul>
       <% word[0].shortdef.forEach(element => { %>
       <li><%= element %></li>
       <% }) %>
     </ul>    
-
-    <br><br>
- 
-    <h3>Synonyms:</h3>
-    <ul>
-      <% word[1].forEach(element => { %>
-      <li id="synonyms"><%= element %>, </li>
-      <% }) %>
-    </ul>
-
-    <br><br>
-
-    <h3>Example Sentence:</h3>
-    <ul>
-      <li> <%= word[3].definitions[0].example %> </li>
-    </ul>
-
-    <br><br>
-
-    <h3>Quotes:</h3>
-    <ul>
-      <li> "<%= word[2].body %>" </li>
-      <li>                             - <%= word[2].author %> </li>
-
-    </ul>
     <br>
+    <% if(word[1]){ %>
+      <h3>Synonyms:</h3>
+      <ul>
+        <% word[1].forEach(element => { %>
+        <li id="synonyms"><%= element %>, </li>
+        <% }) %>
+      </ul>
+    <% } %>
+    <br>
+    <% if(word[3].definitions[0].example){ %>
+      <h3>Example:</h3>
+      <ul>
+        <li> <%= word[3].definitions[0].example %> </li>
+      </ul>
+    <% } %>
+    <br>
+    <% if(word[3].definitions[0].image_url){ %>
+      <h3>Pic:</h3>
+      <ul>
+        <li><img src="<%= word[3].definitions[0].image_url %>"></li>
+      </ul>
+    <% } %>
+    <br>
+    <% if(word[2].body){ %>
+      <h3>Quotes:</h3>
+      <ul>
+        <li> "<%= word[2].body %>" </li>
+        <li>                            - <%= word[2].author %> </li>
+      </ul>
+    <% } %>
+    <br>
+    
     <br>
 
     <form action="/add" method="POST">
@@ -67,7 +70,7 @@
 
         <input type="hidden" name="pronunciation" value="<%= word[3].pronunciation %>"> 
 
-        <input type="hidden" name="prtSpeech" value="<%= word[3].definitions[0].type %>">
+        <input type="hidden" name="prtspeech" value="<%= word[3].definitions[0].type %>">
 
         <input type="hidden" name="sound" value="https://media.merriam-webster.com/audio/prons/en/us/mp3/<%=`${temp}`%>/<%=`${word[0].hwi.prs[0].sound.audio}`%>.mp3">
         
@@ -76,14 +79,13 @@
         <% }) %>
 
         <% word[1].forEach(element => { %>
-        <input type="hidden" name="synonyms[]" value="<%= element %>">
+          <input type="hidden" name="synonyms[]" value="<%= element %>">
         <% }) %>
         
-        <input type="hidden" name="example" value="<%= word[3].definitions[0].example %>">
-
-        <% var pic = word[3].definitions[0].image_url ? word[3].definitions[0].image_url : 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png' %>
-        <input type="hidden" name="image_url" value="<%= pic %>">
-
+        <input type="hidden" name="example" value="<%= word[3].definitions[0].example %>">        
+        
+        <input type="hidden" name="image_url" value="<%= word[3].definitions[0].image_url %>">
+        
         <input type="hidden" name="quote" value="<%= word[2].body %>">
         <input type="hidden" name="author" value="<%= word[2].author %>">
 
