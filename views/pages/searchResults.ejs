@@ -12,12 +12,12 @@
   </header>
   <section id="searchResult">
    <% if(word[3].definitions[0].image_url){ %>
-      <h3>Pic:</h3>
       <ul>
         <li><img id="pic" src="<%= word[3].definitions[0].image_url %>"></li>
       </ul>
     <% } %>
-    <h1><%= searchedWord.toUpperCase() %></h1>
+    <h1 id="wordTitle"><%= searchedWord.toUpperCase() %></h1>
+
     <h2> <%= word[3].pronunciation %></h2>
     <div><%= word[3].definitions[0].emoji %></div>
     <h2> <%= word[3].definitions[0].type %> </h2>    
