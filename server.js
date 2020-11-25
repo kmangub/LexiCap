@@ -39,6 +39,7 @@ app.set('view engine', 'ejs');
 
 //Routes
 app.get('/', (request, response) => {
+  console.log('started');
   response.render('pages/index');
 });
 app.post('/searchWord', searchHandler);
@@ -46,33 +47,26 @@ app.post('/add', addHandler);
 app.get('/collection', collectionHandler);
 app.delete('/delete/:id', deleteHandler);
 app.get('/createCard', createCardHandler);
-app.post('/card', makeCard)
-
+app.post('/card', makeCard);
+app.get('/devs', devsHandler);
 
 //route handlers
 function searchHandler(request, response) {
   try {
     //creating variables
     const searchedWord = request.body.search;
-    let defArr = [];
 
     //Dictionary API call
     let dAPI = process.env.DICT_API;
     let dURL = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${searchedWord}?key=${dAPI}`;
     const pooperagent = superagent.get(dURL)
       .then(data => {
-
-        
         //checks if word is not defined and redirects user to 'word not found page' if so
         if(data.body[0].shortdef === undefined){
           return response.render('pages/wordDetails');
         }
-        // defArr = data.body[0].shortdef.map(element => {
-        //   return element;
-        // });
         console.log('sound route: ', data.body[0].hwi.prs[0].sound.audio);
         return data.body[0]
-
       });
 
     //Thesaurus API call
@@ -92,7 +86,7 @@ function searchHandler(request, response) {
     });
 
     //OwlBot API call requires its own client setup
-    const owlbutt = obClient.define(searchedWord).then(function (result) {
+    const owlbutt = obClient.define(searchedWord).then(function (result) {      
       return result;
     }).catch(error => {
       console.log('error', error);
@@ -124,8 +118,7 @@ function addHandler(request, response) {
   const parsedDefs = JSON.stringify(request.body.definitions);
   const parsedSyns = JSON.stringify(request.body.synonyms);
 
-
-  const sqlParams = [request.body.word, request.body.pronunciation, request.body.prtSpeech, request.body.sound, parsedDefs, parsedSyns, request.body.example, request.body.image_url, request.body.quote, request.body.author];
+  const sqlParams = [request.body.word, request.body.pronunciation, request.body.prtspeech, request.body.sound, parsedDefs, parsedSyns, request.body.example, request.body.image_url, request.body.quote, request.body.author];
 
   client.query(addWordSQL, sqlParams).then(() => response.redirect('/collection'));
 }
@@ -187,10 +180,9 @@ function makeCard(request, response) {
     });
 }
 
-
-
-
-
+function devsHandler(request, response) {
+  response.render('pages/devs');
+}
 
 //connect to client
 client.connect()

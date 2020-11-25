@@ -5,61 +5,71 @@
   <%- include('../layout/head') %>
   <title>My Collection</title>
 </head>
-
-
 <body>
-  <header>
-    <%- include('../layout/header') %>
-  </header>
+<header>
+  <%- include('../layout/header') %>
+    </header>
   <% wordList.forEach(word => { %>
-  <section id="flashCard">
-
-    <ul>
-      <li><img id="pic" src="<%= word.image_url %>"></li>
-    </ul>
-
-    <h1 id="wordTitle"><%= word.word.toUpperCase() %></h1>
-    <h2> <%= word.pronunciation %></h2>
-    <h2> <%= word.prtSpeech %> </h2>
-
-    <audio controls>
-      <source src="<%= word.sound %>" type="audio/mpeg">
-    </audio>
-
-    <br><br>
-
-    <h3>Definitions:</h3>
+    <section id="flashCard">
+    <h1><%= word.word %></h1>
     <br>
-    <ol id="orderedDef">
+    <h2> <%= word.pronunciation %></h2>
+
+    <h2> <%= word.prtspeech %> </h2> 
+
+    <br>
+    <% if(word.sound){ %>
+      <audio controls>
+        <source src="<%= word.sound %>" type="audio/mpeg">
+      </audio>
+      <br>   
+      <br>
+      <br>
+    <% } %>
+    
+    <h3>Definitions:</h3>
+          <ol id="orderedDef">
       <% word.definitions.forEach(innerWord => { %>
       <li id="listDef"><%= innerWord %></li>
       <% }) %>
     </ol>
+      <br>
+      <br>
+    <% if(word.synonyms){ %>
+      <h3>Synonyms:</h3>
+      <ul>
+        <% word.synonyms.forEach(innerWord => { %>
+          <li id="synonyms"><%= innerWord %></li>
+          <% }) %>
+      </ul>
+    <% } %>
     <br>
+
+    <% if(word.example){ %>
+      <h3>Example:</h3>
+      <ul>
+        <li> <%= word.example %> </li>
+      </ul>
+    <% } %>
     <br>
-    <h3>Synonyms:</h3>
-    <ul>
-      <% word.synonyms.forEach(innerWord => { %>
-      <li id="synonyms"><%= innerWord %></li>
-      <% }) %>
-    </ul>
 
-    <br><br>
-
-    <h3>Example Sentence:</h3>
-    <ul>
-      <li> <%= word.example %> </li>
-    </ul>
-
-    <br><br>
-
-    <h3>Quotes:</h3>
-    <ul>
-      <li> "<%= word.quote %>"</li>
-      <li> - <%= word.author %> </li>
-    </ul>
-
-
+    <% if(word.image_url){ %>
+      <h3>Pic:</h3>
+      <ul>
+        <li><img src="<%= word.image_url %>"></li>
+      </ul>
+    <% } %>
+    <br>
+    
+    <% if(word.quote){ %>
+      <h3>Quotes:</h3>
+      <ul>
+        <li> <%= word.quote %> </li>
+        <li> - <%= word.author %> </li>
+      </ul>
+    <% } %>
+    <br>    
+    <br>
     <form action="/delete/<%= word.id %>?_method=DELETE" method="POST">
       <fieldset>
         <input type="hidden" name="words" value="<%= wordList %>">
