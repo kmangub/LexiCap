@@ -15,16 +15,18 @@
 
     <h1><%= word.word %></h1>
     <br>
-    <br>
     <h2> <%= word.pronunciation %></h2>
+    <h2> <%= word.prtspeech %> </h2> 
     <br>
-    <audio controls>
-      <source src="<%= word.sound %>" type="audio/mpeg">
-    </audio>
-    <br>
-    <h2> <%= word.prtSpeech %> </h2>   
-    <br>
-    <br>
+    <% if(word.sound){ %>
+      <audio controls>
+        <source src="<%= word.sound %>" type="audio/mpeg">
+      </audio>
+      <br>   
+      <br>
+      <br>
+    <% } %>
+    
     <h3>Definitions:</h3>
       <ul>
         <% word.definitions.forEach(innerWord => { %>

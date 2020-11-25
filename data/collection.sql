@@ -4,7 +4,7 @@ CREATE TABLE words (
     id SERIAL PRIMARY KEY,
     word varchar(255),
     pronunciation varchar(255),
-    prtSpeech varchar(255),
+    prtspeech varchar(255),
     sound varchar(255),
     definitions TEXT,
     synonyms TEXT,
