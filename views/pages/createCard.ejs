@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Create Card</title>
   <%- include('../layout/head') %>
 </head>
 <body>
@@ -11,12 +11,19 @@
     <%- include('../layout/header') %>
   </header>
   <section>
-  <form method="POST" action="/card">
+  <form id="createCardForm" method="POST" action="/card">
     <fieldset>
       <legend>Add a word</legend>
+      <br>
+      <legend>Word</legend>
       <input type="text" name="word" placeholder="Word">
-      <input type="text" name="definitions[]" placeholder="Enter details here" cols="30" rows="10">
+      <br><br>
+      <legend>Definition</legend>
+      <textarea type="text" name="definitions[]" placeholder="Enter details here" cols="30" rows="10"></textarea>
+      <br><br>
+      <legend>Synonyms</legend>
       <input type="text" name="synonyms[]" placeholder="Synonyms">
+      <br><br>
       <button type="submit">Submit word</button>
     </fieldset>
   </form>

@@ -29,11 +29,12 @@
     <br><br>
 
     <h3>Definitions:</h3>
-    <ul>
+    <br>
+    <ol id="orderedDef">
       <% word.definitions.forEach(innerWord => { %>
-      <li><%= innerWord %></li>
+      <li id="listDef"><%= innerWord %></li>
       <% }) %>
-    </ul>
+    </ol>
     <br>
     <br>
     <h3>Synonyms:</h3>

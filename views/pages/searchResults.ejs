@@ -28,11 +28,12 @@
     </audio>
     <br><br>
     <h3>Definitions:</h3>
-    <ul>
+    <br>
+    <ol id="orderedDef">
       <% word[0].shortdef.forEach(element => { %>
-      <li><%= element %></li>
+        <li id="listDef"><%= element %></li>
       <% }) %>
-    </ul>    
+    </ol>    
 
     <br><br>
  
@@ -55,7 +56,7 @@
     <h3>Quotes:</h3>
     <ul>
       <li> "<%= word[2].body %>" </li>
-      <li>                             - <%= word[2].author %> </li>
+      <li> - <%= word[2].author %> </li>
 
     </ul>
     <br>

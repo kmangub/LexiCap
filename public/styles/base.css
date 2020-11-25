@@ -1,6 +1,7 @@
 @import "layout.css";
 @import "modules.css";
 @import url('https://fonts.googleapis.com/css2?family=Modak&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tillana:wght@500&display=swap');
 
 body {
   background-color: skyblue;
@@ -136,12 +137,13 @@ font-size: 20px;
 margin-left: auto;
 margin-right: auto;
 padding: 10px;
+font-family: 'Tillana', cursive;
 }
 
 #wordTitle {
   font-family: 'Modak', cursive;
   font-size: 50px;
-  
+  text-shadow: 3px 4px rgb(113, 199, 228);
 }
 
 #synonyms{
@@ -165,9 +167,46 @@ h3{
   margin-right: auto;
   padding: 10px;
   display: inline-block;
+  font-family: 'Tillana', cursive;
   }
 
   #pic {
     width: 250px
   }
 
+  /* Styling the ordered definitions list */
+
+  #orderedDef {
+    list-style: none;
+    counter-reset: item;
+  }
+  #listDef {
+    counter-increment: item;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+  #listDef:before {
+    margin-right: 10px;
+    content: counter(item);
+    background: rgb(113, 199, 228);
+    border-radius: 100%;
+    color: white;
+    width: 1.2em;
+    text-align: center;
+    display: inline-block;
+  }
+
+  #createCardForm {
+    margin-top: 20px;
+    width: 280px;
+    border: 2px black solid;
+    background-color: white;
+    border-radius: .5in;
+    text-align: center;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    display: inline-block;
+    font-family: 'Tillana', cursive;
+  }
