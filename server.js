@@ -46,8 +46,8 @@ app.post('/add', addHandler);
 app.get('/collection', collectionHandler);
 app.delete('/delete/:id', deleteHandler);
 app.get('/createCard', createCardHandler);
-app.post('/card', makeCard)
-
+app.post('/card', makeCard);
+app.get('/devs', devsHandler);
 
 //route handlers
 function searchHandler(request, response) {
@@ -61,18 +61,12 @@ function searchHandler(request, response) {
     let dURL = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${searchedWord}?key=${dAPI}`;
     const pooperagent = superagent.get(dURL)
       .then(data => {
-
-        
         //checks if word is not defined and redirects user to 'word not found page' if so
         if(data.body[0].shortdef === undefined){
           return response.render('pages/wordDetails');
         }
-        // defArr = data.body[0].shortdef.map(element => {
-        //   return element;
-        // });
         console.log('sound route: ', data.body[0].hwi.prs[0].sound.audio);
         return data.body[0]
-
       });
 
     //Thesaurus API call
@@ -187,10 +181,9 @@ function makeCard(request, response) {
     });
 }
 
-
-
-
-
+function devsHandler(request, response) {
+  response.render('pages/devs');
+}
 
 //connect to client
 client.connect()

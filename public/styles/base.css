@@ -171,3 +171,67 @@ h3{
     width: 250px
   }
 
+/* --------- DEVS PAGE ----------- */
+
+#devH2 {
+  font-family: 'Modak', cursive;
+  font-size: xx-large;
+  text-align: center;
+  margin: 3%;
+}
+
+article {
+  margin-left: 10%;
+  margin-bottom: 1%;
+  font-family: sans-serif;
+  border: black 2px solid;
+  border-radius: 25px;
+  background-color: whitesmoke;
+  padding: 10px;
+  color: black;
+  display: inline-flex;
+  width: 80%;
+}
+
+article img {
+  width: 20%;
+	height: 200px;
+	border: 1px solid black;
+	border-radius: 10%;
+}
+
+#mike img {
+  width: 20%;
+	height: 25%;
+	border: 1px solid black;
+	border-radius: 10%;
+}
+
+#henry img {
+  width: 15%;
+	max-height: 30%;
+	border: 1px solid black;
+	border-radius: 10%;
+}
+
+#karlo img {
+  width: 15%;
+	height: 30%;
+	border: 1px solid black;
+	border-radius: 10%;
+}
+
+#kyle img {
+  width: 20%;
+	height: 25%;
+	border: 1px solid black;
+	border-radius: 10%;
+}
+
+article p {
+	font-size: 20px;
+	text-align: left;
+	text-indent: 15px;
+	padding: 5px;
+	margin-right: 10px;
+}
